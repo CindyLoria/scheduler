@@ -55,6 +55,7 @@ const AcademicPeriods = () => {
 
   useEffect(() => {
     fetchData();
+    fetchCurriculum();
   }, []);
 
   // Add new academic period
