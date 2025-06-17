@@ -6,6 +6,42 @@ import { FaBookmark, FaDownload, FaUser } from "react-icons/fa";
 import DashboardCard from "../../(component)/DashboardCard";
 
 const Dashboard = () => {
+  const [data, setData] = useState({
+    totalDosen: 0,
+    totalUnduh: 0,
+    totalJadwal: 0
+  });
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/dashboard');
+        if (!response.ok) throw new Error('Failed to fetch data');
+        const result = await response.json();
+        
+        // Ensure we have default values if any data is missing
+        setData({
+          totalDosen: result.totalDosen || 0,
+          totalUnduh: result.totalUnduh || 0,
+          totalJadwal: result.totalJadwal || 0
+        });
+      } catch (error) {
+        message.error('Gagal memuat data dashboard');
+        console.error(error);
+        // Set default values on error
+        setData({
+          totalDosen: 0,
+          totalUnduh: 0,
+          totalJadwal: 0
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
   return (
     <>
       <div className="flex justify-between w-full gap-8 mb-12">
@@ -13,7 +49,7 @@ const Dashboard = () => {
           <DashboardCard
             title={"Total Dosen"}
             icon={<FaUser />}
-            content={"120"}
+            content={loading ? "Loading..." : data.totalDosen.toString()}
             bgColor={"bg-pink-500"}
           />
         </div>
@@ -29,7 +65,7 @@ const Dashboard = () => {
           <DashboardCard
             title={"Total Jadwal"}
             icon={<FaBookmark />}
-            content={"150"}
+            content={loading ? "Loading..." : data.totalJadwal.toString()}
             bgColor={"bg-gray-800"}
           />
         </div>
@@ -51,4 +87,5 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Dashboard
+

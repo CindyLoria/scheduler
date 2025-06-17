@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import React, { useState } from "react";
 import { Button, Form, Input, Space } from "antd";
 import { useRouter } from "next/navigation";
@@ -8,8 +9,9 @@ import { FaLock, FaUser } from "react-icons/fa";
 const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const router = useRouter();
   const [form] = Form.useForm();
+  const router = useRouter();
+
 
   const handleSubmission = async (values) => {
     if (values.username === "" || values.password === "") {
@@ -68,7 +70,16 @@ const App = () => {
         <div className="lg:w-2/5 w-full lg:h-full h-min bg-white lg:rounded-r-xl rounded-b-xl flex lg:rounded-l-none shadow-xl items-center justify-center">
           <div className="block w-full lg:px-20 md:px-12 px-8">
             <div className="text-center lg:mt-0 mt-8 flex flex-col items-center">
-              <img src="/logo-unila.png" width={100} />
+              {/* <img src="/logo-unila.png" width={100} /> */}
+              <button onClick={() => router.push("/dashboard")}>
+                <img
+                  src="/logo-unila.png"
+                  width={100}
+                  className="cursor-pointer"
+                  alt="Logo Unila"
+                />
+              </button>
+
               <p className="text-xl font-medium text-gray-500 mt-4 mb-12">
                 Masuk untuk kelola jadwal
               </p>

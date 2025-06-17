@@ -76,9 +76,19 @@ export const API_SCHEDULE_BY_SCHEDULE_DAY_BY_DEPARTMENT = (
 export const API_SCHEDULE_BY_SCHEDULE_DAY_BY_DEPARTMENT_BY_PERIOD = (
   dayId,
   departmentId,
-  academicPeriodId
+  academicPeriodId,
+  semesterTypeId
 ) =>
-  `/api/schedule/by-day-by-department-by-period?dayId=${dayId}&departmentId=${departmentId}&academicPeriodId=${academicPeriodId}`;
+  `/api/schedule/by-day-by-department-by-period?dayId=${dayId}&departmentId=${departmentId}&academicPeriodId=${academicPeriodId}&semesterTypeId=${semesterTypeId}`;
+export const API_SCHEDULE_SWAP = (
+  departmentId,
+  academicPeriodId,
+  semesterTypeId,
+) =>
+  `/api/schedule/swap?departmentId=${departmentId}&academicPeriodId=${academicPeriodId}&semesterTypeId=${semesterTypeId}`;
+  export const API_SCHEDULE_SWAPDATA = "/api/schedule/swap/data";
+  
+  
 
 // Schedule Day
 export const API_SCHEDULE_DAY = "/api/schedule-day/";
@@ -123,4 +133,6 @@ export const API_CURRICULUM = "/api/curriculum/";
 export const API_CURRICULUM_BY_ID = (id) => `/api/curriculum/${id}`;
 
 // Auto Generate Service
-export const AUTO_GENERATE_SERVICE = (departmentId, curriculumId, semesterTypeId, academicPeriodId) => `${process.env.NEXT_PUBLIC_AUTO_GENERATE_SERVICE_URL}/api/generate-schedule?departmentId=${departmentId}&curriculumId=${curriculumId}&semesterTypeId=${semesterTypeId}&academicPeriodId=${academicPeriodId}`
+// export const AUTO_GENERATE_SERVICE = (departmentId, curriculumId, semesterTypeId, academicPeriodId) => `${process.env.NEXT_PUBLIC_AUTO_GENERATE_SERVICE_URL}/api/generate-schedule?departmentId=${departmentId}&curriculumId=${curriculumId}&semesterTypeId=${semesterTypeId}&academicPeriodId=${academicPeriodId}`
+export const AUTO_GENERATE_SERVICE = (departmentId, curriculumId, semesterTypeId, academicPeriodId) => 
+  `http://localhost:8000/api/generate-schedule` 

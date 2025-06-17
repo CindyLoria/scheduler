@@ -27,16 +27,21 @@ export async function GET(req) {
                     subject: {
                       select: {
                         subjectName: true,
-                      },
-                    },
-                    subjectType: {
-                      select: {
-                        typeName: true,
-                      },
-                    },
-                  },
-                },
-              },
+                        semester: {
+                          select: {
+                            semesterName: true,
+                            semesterType: {
+                              select: {
+                                typeName: true
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             },
           },
         },

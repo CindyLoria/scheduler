@@ -40,9 +40,10 @@ export async function GET(req) {
             class: {
               select: {
                 className: true,
+                semester: true,
                 subSubject: {
                   select: {
-                    subject: { select: { subjectName: true } },
+                    subject: { select: { subjectName: true, semester: true } },
                     subjectType: { select: { typeName: true } },
                   },
                 },

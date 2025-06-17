@@ -5,220 +5,280 @@ const path = require('path');
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding data...");
-  
-  const filePath = path.resolve(__dirname, '../public/database/DATA.xlsx');
-  
-  const workbook = xlsx.readFile(filePath);
+  try {
+    console.log("Seeding data...");
+    
+    const filePath = path.resolve(__dirname, '../public/database/DATA.xlsx');
+    const workbook = xlsx.readFile(filePath);
 
-  // Faculties
-  const faculty = await prisma.faculty.create({
-    data: {
-      facultyName: 'Matematika dan Ilmu Pengetahuan Alam',
-    },
-  });
-
-  // Departments
-  const department = await prisma.department.create({
-    data: {
-      departmentName: 'Ilmu Komputer',
-      facultyId: faculty.id,
-    },
-  });
-
-  // Curriculum
-  const curriculum = await prisma.curriculum.create({
-    data: {
-      curriculumName: '2020',
-    },
-  });
-
-  // Semester Types
-  await prisma.semesterType.createMany({
-    data: [
-      {
-        typeName: 'Ganjil',
+    // Faculties
+    console.log("Creating faculty...");
+    const faculty = await prisma.faculty.create({
+      data: {
+        facultyName: 'Matematika dan Ilmu Pengetahuan Alam',
       },
-      {
-        typeName: 'Genap',
+    });
+    console.log("Faculty created:", faculty.id);
+
+    // Departments
+    console.log("Creating department...");
+    const department = await prisma.department.create({
+      data: {
+        departmentName: 'Ilmu Komputer',
+        facultyId: faculty.id,
+      },
+    });
+    console.log("Department created:", department.id);
+
+    // Curriculum
+    console.log("Creating curriculum...");
+    const curriculum = await prisma.curriculum.create({
+      data: {
+        curriculumName: '2020',
+      },
+    });
+    console.log("Curriculum created:", curriculum.id);
+
+    // Semester Types 
+    console.log("Creating semester types...");
+    const ganjil = await prisma.semesterType.create({
+      data: {
+        typeName: 'Ganjil'
       }
-    ],
-  });
+    });
+    console.log("Created Ganjil semester type:", ganjil.id);
 
-  //Assistants
+    const genap = await prisma.semesterType.create({
+      data: {
+        typeName: 'Genap'
+      }
+    });
+    console.log("Created Genap semester type:", genap.id);
 
-  for (const sheetName of workbook.SheetNames) {
-    const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    // Process Excel sheets
+    for (const sheetName of workbook.SheetNames) {
+      const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+      console.log(`Processing sheet: ${sheetName}`);
 
-    switch (sheetName) {
+      try {
+        switch (sheetName) {
+          case 'studyProgram':
+            for (const row of sheetData) {
+              await prisma.studyProgram.create({
+                data: {
+                  studyProgramName: row.studyProgramName,
+                  departmentId: department.id,
+                },
+              });
+            }
+            console.log("Study programs created");
+            break;
 
-      // Study Programs
-      case 'studyProgram':
-        await prisma.studyProgram.createMany({
-          data: sheetData.map((row) => ({
-            studyProgramName: row.studyProgramName,
-            departmentId: row.departmentId,
-          })),
-        });
-        break;
+          case 'semester':
+            for (const row of sheetData) {
+              await prisma.semester.create({
+                data: {
+                  semesterName: row.semesterName,
+                  semesterTypeId: row.semesterTypeId,
+                },
+              });
+            }
+            console.log("Semesters created");
+            break;
 
-      // Semesters
-      case 'semester':
-        await prisma.semester.createMany({
-          data: sheetData.map((row) => ({
-            semesterName: row.semesterName,
-            semesterTypeId: row.semesterTypeId,
-          })),
-        });
-        break;
+          case 'studyProgramClass':
+            for (const row of sheetData) {
+              await prisma.studyProgramClass.create({
+                data: {
+                  className: row.className,
+                  studyProgramId: row.studyProgramId,
+                },
+              });
+            }
+            console.log("Study program classes created");
+            break;
 
-      // Study Program Classes
-      case 'studyProgramClass':
-        await prisma.studyProgramClass.createMany({
-          data: sheetData.map((row) => ({
-            className: row.className,
-            studyProgramId: row.studyProgramId,
-          })),
-        });
-        break;
+          case 'subject':
+            for (const row of sheetData) {
+              await prisma.subject.create({
+                data: {
+                  subjectCode: row.subjectCode,
+                  subjectName: row.subjectName,
+                  subjectSKS: row.subjectSKS,
+                  subjectCategory: row.subjectCategory,
+                  curriculumId: curriculum.id,
+                  studyProgramId: row.studyProgramId,
+                  semesterId: row.semesterId,
+                },
+              });
+            }
+            console.log("Subjects created");
+            break;
 
-      // Subjects
-      case 'subject':
-        await prisma.subject.createMany({
-          data: sheetData.map((row) => ({
-            subjectCode: row.subjectCode,
-            subjectName: row.subjectName,
-            subjectSKS: row.subjectSKS,
-            subjectCategory: row.subjectCategory,
-            curriculumId: row.curriculumId,
-            studyProgramId: row.studyProgramId,
-            semesterId: row.semesterId,
-          })),
-        });
-        break;
+          case 'subjectType':
+            for (const row of sheetData) {
+              await prisma.subjectType.create({
+                data: {
+                  typeName: row.typeName,
+                },
+              });
+            }
+            console.log("Subject types created");
+            break;
 
-      // Subject Types
-      case 'subjectType':
-        await prisma.subjectType.createMany({
-          data: sheetData.map((row) => ({
-            typeName: row.typeName,
-          })),
-        });
-        break;
+          case 'subSubject':
+            for (const row of sheetData) {
+              await prisma.subSubject.create({
+                data: {
+                  subjectTypeId: row.subjectTypeId,
+                  subjectId: row.subjectId,
+                },
+              });
+            }
+            console.log("Sub subjects created");
+            break;
 
-      // Sub Subjects
-      case 'subSubject':
-        await prisma.subSubject.createMany({
-          data: sheetData.map((row) => ({
-            subjectTypeId: row.subjectTypeId,
-            subjectId: row.subjectId,
-          })),
-        });
-        break;
+          case 'room':
+            for (const row of sheetData) {
+              await prisma.room.create({
+                data: {
+                  roomName: row.roomName,
+                  roomCapacity: row.roomCapacity,
+                  isPracticum: Boolean(row.isPracticum),
+                  isTheory: Boolean(row.isTheory),
+                  isResponse: Boolean(row.isResponse),
+                  departmentId: department.id,
+                },
+              });
+            }
+            console.log("Rooms created");
+            break;
 
-      // Rooms
-      case 'room':
-        await prisma.room.createMany({
-          data: sheetData.map((row) => ({
-            roomName: row.roomName,
-            roomCapacity: row.roomCapacity,
-            isPracticum: row.isPracticum,
-            isTheory: row.isTheory,
-            isResponse: row.isResponse,
-            departmentId: row.departmentId,
-          })),
-        });
-        break;
+          case 'academicPeriod':
+            for (const row of sheetData) {
+              await prisma.academicPeriod.create({
+                data: {
+                  academicYear: row.academicYear,
+                  curriculumId: curriculum.id,
+                  semesterTypeId: row.semesterTypeId,
+                },
+              });
+            }
+            console.log("Academic periods created");
+            break;
 
-      // Academic Periods
-      case 'academicPeriod':
-        await prisma.academicPeriod.createMany({
-          data: sheetData.map((row) => ({
-            academicYear: row.academicYear,
-            curriculumId: row.curriculumId,
-            semesterTypeId: row.semesterTypeId,
-          })),
-        });
-        break;
+          case 'class':
+            for (const row of sheetData) {
+              await prisma.class.create({
+                data: {
+                  classCapacity: row.classCapacity,
+                  studyProgramClassId: row.studyProgramClassId,
+                  subSubjectId: row.subSubjectId,
+                  academicPeriodId: row.academicPeriodId,
+                },
+              });
+            }
+            console.log("Classes created");
+            break;
 
-      // Classes
-      case 'class':
-        await prisma.class.createMany({
-          data: sheetData.map((row) => ({
-            classCapacity: row.classCapacity,
-            studyProgramClassId: row.studyProgramClassId,
-            subSubjectId: row.subSubjectId,
-            academicPeriodId: row.academicPeriodId,
-          })),
-        });
-        break;
+          case 'lecturer':
+            for (const row of sheetData) {
+              await prisma.lecturer.create({
+                data: {
+                  lecturerName: row.lecturerName,
+                  lecturerNIP: row.lecturerNIP || null,
+                  lecturerEmail: row.lecturerEmail || null,
+                  departmentId: department.id,
+                },
+              });
+            }
+            console.log("Lecturers created");
+            break;
 
-      // Lecturers
-      case 'lecturer':
-        await prisma.lecturer.createMany({
-          data: sheetData.map((row) => ({
-            lecturerName: row.lecturerName,
-            lecturerNIP: row.lecturerNIP,
-            lecturerEmail: row.lecturerEmail,
-            departmentId: row.departmentId,
-          })),
-        });
-        break;
+          case 'classLecturer':
+            for (const row of sheetData) {
+              await prisma.classLecturer.create({
+                data: {
+                  classId: row.classId,
+                  primaryLecturerId: row.primaryLecturerId,
+                  secondaryLecturerId: row.secondaryLecturerId || null,
+                  primaryAssistantId: row.primaryAssistantId || null,
+                  secondaryAssistantId: row.secondaryAssistantId || null,
+                },
+              });
+            }
+            console.log("Class lecturers created");
+            break;
 
-      // Class Lecturers
-      case 'classLecturer':
-        await prisma.classLecturer.createMany({
-          data: sheetData.map((row) => ({
-            classId: row.classId,
-            primaryLecturerId: row.primaryLecturerId,
-            secondaryLecturerId: row.secondaryLecturerId,
-            primaryAssistantId: row.primaryAssistantId,
-            secondaryAssistantId: row.secondaryAssistantId,
-          })),
-        });
-        break;
+          case 'scheduleSession':
+            for (const row of sheetData) {
+              await prisma.scheduleSession.create({
+                data: {
+                  startTime: row.startTime,
+                  endTime: row.endTime,
+                  sessionNumber: row.sessionNumber,
+                },
+              });
+            }
+            console.log("Schedule sessions created");
+            break;
 
-      // Schedule Sessions
-      case 'scheduleSession':
-        await prisma.scheduleSession.createMany({
-          data: sheetData.map((row) => ({
-            startTime: row.startTime,
-            endTime: row.endTime,
-            sessionNumber: row.sessionNumber,
-          })),
-        });
-        break;
+          case 'scheduleDay':
+            for (const row of sheetData) {
+              await prisma.scheduleDay.create({
+                data: {
+                  day: row.day,
+                },
+              });
+            }
+            console.log("Schedule days created");
+            break;
 
-      // Schedule Days
-      case 'scheduleDay':
-        await prisma.scheduleDay.createMany({
-          data: sheetData.map((row) => ({
-            day: row.day,
-          })),
-        });
-        break;
+          case 'schedule':
+            for (const row of sheetData) {
+              await prisma.schedule.create({
+                data: {
+                  scheduleDayId: row.scheduleDayId,
+                  classLecturerId: row.classLecturerId,
+                  scheduleSessionId: row.scheduleSessionId,
+                  roomId: row.roomId,
+                },
+              });
+            }
+            console.log("Schedules created");
+            break;
 
-      default:
-        console.warn(`No matching table for sheet: ${sheetName}`);
+          default:
+            console.log(`Skipping unknown sheet: ${sheetName}`);
+        }
+      } catch (error) {
+        console.error(`Error processing sheet ${sheetName}:`, error);
+        throw error;
+      }
     }
+
+    // buat admin user
+    console.log("Creating admin user...");
+    const user = await prisma.user.create({
+      data: {
+        username: 'admin',
+        password: '$2a$12$zZeNjPxjEyWsvU78f7MlOuPIxTI9fjGmjNqgtrZpILGxUdpXlHUGu',
+        role: 'admin',
+        lecturerId: 1,
+      },
+    });
+    console.log("Admin user created:", user.id);
+
+    console.log("Seeding complete!");
+  } catch (error) {
+    console.error("Error during seeding:", error);
+    throw error;
   }
-
-  // User
-  const user = await prisma.user.create({
-    data: {
-      username: 'admin',
-      password: '$2a$12$zZeNjPxjEyWsvU78f7MlOuPIxTI9fjGmjNqgtrZpILGxUdpXlHUGu',
-      role: 'admin',
-      lecturerId: 1,
-    }
-  });
-
-  console.log("Seeding complete!");
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("Error:", e);
     process.exit(1);
   })
   .finally(async () => {

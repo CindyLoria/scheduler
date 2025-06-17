@@ -1,0 +1,77 @@
+[
+  {
+    "schedule": {
+      "scheduleDayId": 2,
+      "scheduleSessionId": 3,
+      "roomId": 14,
+      "classLecturerId": 465
+    },
+    "reason": "Invalid academic period",
+    "details": {
+      "expectedPeriod": 2,
+      "actualPeriod": 1
+    }
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 1,
+      "scheduleSessionId": 2,
+      "roomId": 14,
+      "classLecturerId": 466
+    },
+    "reason": "Invalid academic period",
+    "details": {
+      "expectedPeriod": 2,
+      "actualPeriod": 1
+    }
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 5,
+      "scheduleSessionId": 5,
+      "roomId": 16,
+      "classLecturerId": 467
+    },
+    "reason": "Invalid academic period",
+    "details": {
+      "expectedPeriod": 2,
+      "actualPeriod": 1
+    }
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 2,
+      "scheduleSessionId": 1,
+      "roomId": 15,
+      "classLecturerId": 468
+    },
+    "reason": "Invalid academic period",
+    "details": {
+      "expectedPeriod": 2,
+      "actualPeriod": 1
+    }
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 5,
+      "scheduleSessionId": 5,
+      "roomId": 13,
+      "classLecturerId": 469
+    },
+    "reason": "Invalid academic period",
+    "details": {
+      "expectedPeriod": 2,
+      "actualPeriod": 1
+    }
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 5,
+      "scheduleSessionId": 2,
+      "roomId": 15,
+      "classLecturerId": 470
+    },
+    "reason": "Duplicate schedule",
+    "existingScheduleId": 243
+  }
+]

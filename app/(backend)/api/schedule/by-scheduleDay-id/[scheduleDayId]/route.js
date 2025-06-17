@@ -25,11 +25,13 @@ export async function GET(req, { params }) {
             class: {
               select: {
                 className: true,
+                semester: true,
                 subSubject: {
                   select: {
                     subject: {
                       select: {
                         subjectName: true,
+                        semester: true,
                       },
                     },
                     subjectType: {

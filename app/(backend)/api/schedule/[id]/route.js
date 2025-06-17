@@ -5,8 +5,31 @@ export async function GET(req, { params }) {
   const { id } = params;
 
   try {
+    // const schedule = await prisma.schedule.findUnique({
+    //   where: { id: Number(id) },
+    // });
     const schedule = await prisma.schedule.findUnique({
       where: { id: Number(id) },
+      include: {
+        classLecturer: {
+          include: {
+            class: {
+              select: {
+                semester: true,
+                subSubject: {
+                  select: {
+                    subject: {
+                      select: {
+                        semester: true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     });
 
     if (!schedule) {
