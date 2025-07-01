@@ -137,262 +137,262 @@
 
 #     return decoded_schedule
 
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
-from datetime import datetime
-from ..db import Base
+# from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+# from sqlalchemy.orm import relationship
+# from datetime import datetime
+# from ..db import Base
 
-class Faculty(Base):
-    __tablename__ = "faculties"
-    id = Column(Integer, primary_key=True, index=True)
-    facultyName = Column(String)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Faculty(Base):
+#     __tablename__ = "faculties"
+#     id = Column(Integer, primary_key=True, index=True)
+#     facultyName = Column(String)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    departments = relationship("Department", back_populates="faculty")
+#     departments = relationship("Department", back_populates="faculty")
 
-class Department(Base):
-    __tablename__ = "departments"
-    id = Column(Integer, primary_key=True, index=True)
-    departmentName = Column(String)
-    facultyId = Column(Integer, ForeignKey("faculties.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Department(Base):
+#     __tablename__ = "departments"
+#     id = Column(Integer, primary_key=True, index=True)
+#     departmentName = Column(String)
+#     facultyId = Column(Integer, ForeignKey("faculties.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    faculty = relationship("Faculty", back_populates="departments")
-    studyPrograms = relationship("StudyProgram", back_populates="department")
-    rooms = relationship("Room", back_populates="department")
-    lecturers = relationship("Lecturer", back_populates="department")
+#     faculty = relationship("Faculty", back_populates="departments")
+#     studyPrograms = relationship("StudyProgram", back_populates="department")
+#     rooms = relationship("Room", back_populates="department")
+#     lecturers = relationship("Lecturer", back_populates="department")
 
-class StudyProgram(Base):
-    __tablename__ = "studyPrograms"
-    id = Column(Integer, primary_key=True, index=True)
-    studyProgramName = Column(String)
-    departmentId = Column(Integer, ForeignKey("departments.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class StudyProgram(Base):
+#     __tablename__ = "studyPrograms"
+#     id = Column(Integer, primary_key=True, index=True)
+#     studyProgramName = Column(String)
+#     departmentId = Column(Integer, ForeignKey("departments.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    department = relationship("Department", back_populates="studyPrograms")
-    subjects = relationship("Subject", back_populates="studyProgram")
-    studyProgramClasses = relationship("StudyProgramClass", back_populates="studyProgram")
+#     department = relationship("Department", back_populates="studyPrograms")
+#     subjects = relationship("Subject", back_populates="studyProgram")
+#     studyProgramClasses = relationship("StudyProgramClass", back_populates="studyProgram")
 
-class Curriculum(Base):
-    __tablename__ = "curriculums"
-    id = Column(Integer, primary_key=True, index=True)
-    curriculumName = Column(String)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Curriculum(Base):
+#     __tablename__ = "curriculums"
+#     id = Column(Integer, primary_key=True, index=True)
+#     curriculumName = Column(String)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    subjects = relationship("Subject", back_populates="curriculum")
-    academicPeriods = relationship("AcademicPeriod", back_populates="curriculum")
+#     subjects = relationship("Subject", back_populates="curriculum")
+#     academicPeriods = relationship("AcademicPeriod", back_populates="curriculum")
 
-class SemesterType(Base):
-    __tablename__ = "semesterTypes"
-    id = Column(Integer, primary_key=True, index=True)
-    typeName = Column(String)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class SemesterType(Base):
+#     __tablename__ = "semesterTypes"
+#     id = Column(Integer, primary_key=True, index=True)
+#     typeName = Column(String)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    semesters = relationship("Semester", back_populates="semesterType")
-    academicPeriods = relationship("AcademicPeriod", back_populates="semesterType")
+#     semesters = relationship("Semester", back_populates="semesterType")
+#     academicPeriods = relationship("AcademicPeriod", back_populates="semesterType")
 
-class Semester(Base):
-    __tablename__ = "semesters"
-    id = Column(Integer, primary_key=True, index=True)
-    semesterName = Column(Integer)
-    semesterTypeId = Column(Integer, ForeignKey("semesterTypes.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Semester(Base):
+#     __tablename__ = "semesters"
+#     id = Column(Integer, primary_key=True, index=True)
+#     semesterName = Column(Integer)
+#     semesterTypeId = Column(Integer, ForeignKey("semesterTypes.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    semesterType = relationship("SemesterType", back_populates="semesters")
-    subjects = relationship("Subject", back_populates="semester")
-    assistants = relationship("Assistant", back_populates="semester")
+#     semesterType = relationship("SemesterType", back_populates="semesters")
+#     subjects = relationship("Subject", back_populates="semester")
+#     assistants = relationship("Assistant", back_populates="semester")
 
-class StudyProgramClass(Base):
-    __tablename__ = "studyProgramClasses"
-    id = Column(Integer, primary_key=True, index=True)
-    className = Column(String)
-    studyProgramId = Column(Integer, ForeignKey("studyPrograms.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class StudyProgramClass(Base):
+#     __tablename__ = "studyProgramClasses"
+#     id = Column(Integer, primary_key=True, index=True)
+#     className = Column(String)
+#     studyProgramId = Column(Integer, ForeignKey("studyPrograms.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    studyProgram = relationship("StudyProgram", back_populates="studyProgramClasses")
-    assistants = relationship("Assistant", back_populates="studyProgramClass")
-    classes = relationship("Class", back_populates="studyProgramClass")
+#     studyProgram = relationship("StudyProgram", back_populates="studyProgramClasses")
+#     assistants = relationship("Assistant", back_populates="studyProgramClass")
+#     classes = relationship("Class", back_populates="studyProgramClass")
 
-class Subject(Base):
-    __tablename__ = "subjects"
-    id = Column(Integer, primary_key=True, index=True)
-    subjectCode = Column(String)
-    subjectName = Column(String)
-    subjectSKS = Column(Integer)
-    subjectCategory = Column(String)
-    curriculumId = Column(Integer, ForeignKey("curriculums.id"))
-    studyProgramId = Column(Integer, ForeignKey("studyPrograms.id"))
-    semesterId = Column(Integer, ForeignKey("semesters.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Subject(Base):
+#     __tablename__ = "subjects"
+#     id = Column(Integer, primary_key=True, index=True)
+#     subjectCode = Column(String)
+#     subjectName = Column(String)
+#     subjectSKS = Column(Integer)
+#     subjectCategory = Column(String)
+#     curriculumId = Column(Integer, ForeignKey("curriculums.id"))
+#     studyProgramId = Column(Integer, ForeignKey("studyPrograms.id"))
+#     semesterId = Column(Integer, ForeignKey("semesters.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    curriculum = relationship("Curriculum", back_populates="subjects")
-    studyProgram = relationship("StudyProgram", back_populates="subjects")
-    semester = relationship("Semester", back_populates="subjects")
-    subSubjects = relationship("SubSubject", back_populates="subject")
+#     curriculum = relationship("Curriculum", back_populates="subjects")
+#     studyProgram = relationship("StudyProgram", back_populates="subjects")
+#     semester = relationship("Semester", back_populates="subjects")
+#     subSubjects = relationship("SubSubject", back_populates="subject")
 
-class SubjectType(Base):
-    __tablename__ = "subjectTypes"
-    id = Column(Integer, primary_key=True, index=True)
-    typeName = Column(String)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class SubjectType(Base):
+#     __tablename__ = "subjectTypes"
+#     id = Column(Integer, primary_key=True, index=True)
+#     typeName = Column(String)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    subSubjects = relationship("SubSubject", back_populates="subjectType")
+#     subSubjects = relationship("SubSubject", back_populates="subjectType")
 
-class SubSubject(Base):
-    __tablename__ = "subSubjects"
-    id = Column(Integer, primary_key=True, index=True)
-    subjectTypeId = Column(Integer, ForeignKey("subjectTypes.id"))
-    subjectId = Column(Integer, ForeignKey("subjects.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class SubSubject(Base):
+#     __tablename__ = "subSubjects"
+#     id = Column(Integer, primary_key=True, index=True)
+#     subjectTypeId = Column(Integer, ForeignKey("subjectTypes.id"))
+#     subjectId = Column(Integer, ForeignKey("subjects.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    subjectType = relationship("SubjectType", back_populates="subSubjects")
-    subject = relationship("Subject", back_populates="subSubjects")
-    classes = relationship("Class", back_populates="subSubject")
+#     subjectType = relationship("SubjectType", back_populates="subSubjects")
+#     subject = relationship("Subject", back_populates="subSubjects")
+#     classes = relationship("Class", back_populates="subSubject")
 
-class Room(Base):
-    __tablename__ = "rooms"
-    id = Column(Integer, primary_key=True, index=True)
-    roomName = Column(String)
-    roomCapacity = Column(Integer)
-    isPracticum = Column(Boolean)
-    isTheory = Column(Boolean)
-    isResponse = Column(Boolean)
-    departmentId = Column(Integer, ForeignKey("departments.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Room(Base):
+#     __tablename__ = "rooms"
+#     id = Column(Integer, primary_key=True, index=True)
+#     roomName = Column(String)
+#     roomCapacity = Column(Integer)
+#     isPracticum = Column(Boolean)
+#     isTheory = Column(Boolean)
+#     isResponse = Column(Boolean)
+#     departmentId = Column(Integer, ForeignKey("departments.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    department = relationship("Department", back_populates="rooms")
-    schedules = relationship("Schedule", back_populates="room")
+#     department = relationship("Department", back_populates="rooms")
+#     schedules = relationship("Schedule", back_populates="room")
 
-class AcademicPeriod(Base):
-    __tablename__ = "academicPeriods"
-    id = Column(Integer, primary_key=True, index=True)
-    academicYear = Column(Integer)
-    curriculumId = Column(Integer, ForeignKey("curriculums.id"))
-    semesterTypeId = Column(Integer, ForeignKey("semesterTypes.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class AcademicPeriod(Base):
+#     __tablename__ = "academicPeriods"
+#     id = Column(Integer, primary_key=True, index=True)
+#     academicYear = Column(Integer)
+#     curriculumId = Column(Integer, ForeignKey("curriculums.id"))
+#     semesterTypeId = Column(Integer, ForeignKey("semesterTypes.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    curriculum = relationship("Curriculum", back_populates="academicPeriods")
-    semesterType = relationship("SemesterType", back_populates="academicPeriods")
-    classes = relationship("Class", back_populates="academicPeriod")
+#     curriculum = relationship("Curriculum", back_populates="academicPeriods")
+#     semesterType = relationship("SemesterType", back_populates="academicPeriods")
+#     classes = relationship("Class", back_populates="academicPeriod")
 
-class Class(Base):
-    __tablename__ = "classes"
-    id = Column(Integer, primary_key=True, index=True)
-    classCapacity = Column(Integer)
-    studyProgramClassId = Column(Integer, ForeignKey("studyProgramClasses.id"))
-    subSubjectId = Column(Integer, ForeignKey("subSubjects.id"))
-    academicPeriodId = Column(Integer, ForeignKey("academicPeriods.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Class(Base):
+#     __tablename__ = "classes"
+#     id = Column(Integer, primary_key=True, index=True)
+#     classCapacity = Column(Integer)
+#     studyProgramClassId = Column(Integer, ForeignKey("studyProgramClasses.id"))
+#     subSubjectId = Column(Integer, ForeignKey("subSubjects.id"))
+#     academicPeriodId = Column(Integer, ForeignKey("academicPeriods.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    studyProgramClass = relationship("StudyProgramClass", back_populates="classes")
-    subSubject = relationship("SubSubject", back_populates="classes")
-    academicPeriod = relationship("AcademicPeriod", back_populates="classes")
-    classLecturers = relationship("ClassLecturer", back_populates="class")
+#     studyProgramClass = relationship("StudyProgramClass", back_populates="classes")
+#     subSubject = relationship("SubSubject", back_populates="classes")
+#     academicPeriod = relationship("AcademicPeriod", back_populates="classes")
+#     classLecturers = relationship("ClassLecturer", back_populates="class")
 
-class Assistant(Base):
-    __tablename__ = "assistants"
-    id = Column(Integer, primary_key=True, index=True)
-    assistantName = Column(String)
-    assistantNPM = Column(String)
-    semesterId = Column(Integer, ForeignKey("semesters.id"))
-    studyProgramClassId = Column(Integer, ForeignKey("studyProgramClasses.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Assistant(Base):
+#     __tablename__ = "assistants"
+#     id = Column(Integer, primary_key=True, index=True)
+#     assistantName = Column(String)
+#     assistantNPM = Column(String)
+#     semesterId = Column(Integer, ForeignKey("semesters.id"))
+#     studyProgramClassId = Column(Integer, ForeignKey("studyProgramClasses.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    semester = relationship("Semester", back_populates="assistants")
-    studyProgramClass = relationship("StudyProgramClass", back_populates="assistants")
-    class_lecturers_primary = relationship("ClassLecturer", foreign_keys="ClassLecturer.primaryAssistantId", back_populates="primaryAssistant")
-    class_lecturers_secondary = relationship("ClassLecturer", foreign_keys="ClassLecturer.secondaryAssistantId", back_populates="secondaryAssistant")
+#     semester = relationship("Semester", back_populates="assistants")
+#     studyProgramClass = relationship("StudyProgramClass", back_populates="assistants")
+#     class_lecturers_primary = relationship("ClassLecturer", foreign_keys="ClassLecturer.primaryAssistantId", back_populates="primaryAssistant")
+#     class_lecturers_secondary = relationship("ClassLecturer", foreign_keys="ClassLecturer.secondaryAssistantId", back_populates="secondaryAssistant")
 
-class Lecturer(Base):
-    __tablename__ = "lecturers"
-    id = Column(Integer, primary_key=True, index=True)
-    lecturerName = Column(String)
-    lecturerNIP = Column(String, nullable=True)
-    lecturerEmail = Column(String, nullable=True)
-    departmentId = Column(Integer, ForeignKey("departments.id"), nullable=True)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Lecturer(Base):
+#     __tablename__ = "lecturers"
+#     id = Column(Integer, primary_key=True, index=True)
+#     lecturerName = Column(String)
+#     lecturerNIP = Column(String, nullable=True)
+#     lecturerEmail = Column(String, nullable=True)
+#     departmentId = Column(Integer, ForeignKey("departments.id"), nullable=True)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    department = relationship("Department", back_populates="lecturers")
-    class_lecturers_primary = relationship("ClassLecturer", foreign_keys="ClassLecturer.primaryLecturerId", back_populates="primaryLecturer")
-    class_lecturers_secondary = relationship("ClassLecturer", foreign_keys="ClassLecturer.secondaryLecturerId", back_populates="secondaryLecturer")
-    users = relationship("User", back_populates="lecturer")
+#     department = relationship("Department", back_populates="lecturers")
+#     class_lecturers_primary = relationship("ClassLecturer", foreign_keys="ClassLecturer.primaryLecturerId", back_populates="primaryLecturer")
+#     class_lecturers_secondary = relationship("ClassLecturer", foreign_keys="ClassLecturer.secondaryLecturerId", back_populates="secondaryLecturer")
+#     users = relationship("User", back_populates="lecturer")
 
-class ClassLecturer(Base):
-    __tablename__ = "classLecturers"
-    id = Column(Integer, primary_key=True, index=True)
-    classId = Column(Integer, ForeignKey("classes.id"))
-    primaryLecturerId = Column(Integer, ForeignKey("lecturers.id"))
-    secondaryLecturerId = Column(Integer, ForeignKey("lecturers.id"), nullable=True)
-    primaryAssistantId = Column(Integer, ForeignKey("assistants.id"), nullable=True)
-    secondaryAssistantId = Column(Integer, ForeignKey("assistants.id"), nullable=True)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class ClassLecturer(Base):
+#     __tablename__ = "classLecturers"
+#     id = Column(Integer, primary_key=True, index=True)
+#     classId = Column(Integer, ForeignKey("classes.id"))
+#     primaryLecturerId = Column(Integer, ForeignKey("lecturers.id"))
+#     secondaryLecturerId = Column(Integer, ForeignKey("lecturers.id"), nullable=True)
+#     primaryAssistantId = Column(Integer, ForeignKey("assistants.id"), nullable=True)
+#     secondaryAssistantId = Column(Integer, ForeignKey("assistants.id"), nullable=True)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    class_ = relationship("Class", back_populates="classLecturers")
-    primaryLecturer = relationship("Lecturer", foreign_keys=[primaryLecturerId], back_populates="class_lecturers_primary")
-    secondaryLecturer = relationship("Lecturer", foreign_keys=[secondaryLecturerId], back_populates="class_lecturers_secondary")
-    primaryAssistant = relationship("Assistant", foreign_keys=[primaryAssistantId], back_populates="class_lecturers_primary")
-    secondaryAssistant = relationship("Assistant", foreign_keys=[secondaryAssistantId], back_populates="class_lecturers_secondary")
-    schedules = relationship("Schedule", back_populates="classLecturer")
+#     class_ = relationship("Class", back_populates="classLecturers")
+#     primaryLecturer = relationship("Lecturer", foreign_keys=[primaryLecturerId], back_populates="class_lecturers_primary")
+#     secondaryLecturer = relationship("Lecturer", foreign_keys=[secondaryLecturerId], back_populates="class_lecturers_secondary")
+#     primaryAssistant = relationship("Assistant", foreign_keys=[primaryAssistantId], back_populates="class_lecturers_primary")
+#     secondaryAssistant = relationship("Assistant", foreign_keys=[secondaryAssistantId], back_populates="class_lecturers_secondary")
+#     schedules = relationship("Schedule", back_populates="classLecturer")
 
-class User(Base):
-    __tablename__ = "users"
-    id = Column(String, primary_key=True, index=True)
-    username = Column(String, unique=True)
-    password = Column(String)
-    role = Column(String)
-    lecturerId = Column(Integer, ForeignKey("lecturers.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class User(Base):
+#     __tablename__ = "users"
+#     id = Column(String, primary_key=True, index=True)
+#     username = Column(String, unique=True)
+#     password = Column(String)
+#     role = Column(String)
+#     lecturerId = Column(Integer, ForeignKey("lecturers.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    lecturer = relationship("Lecturer", back_populates="users")
+#     lecturer = relationship("Lecturer", back_populates="users")
 
-class ScheduleSession(Base):
-    __tablename__ = "scheduleSessions"
-    id = Column(Integer, primary_key=True, index=True)
-    startTime = Column(String)
-    endTime = Column(String)
-    sessionNumber = Column(Integer)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class ScheduleSession(Base):
+#     __tablename__ = "scheduleSessions"
+#     id = Column(Integer, primary_key=True, index=True)
+#     startTime = Column(String)
+#     endTime = Column(String)
+#     sessionNumber = Column(Integer)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    schedules = relationship("Schedule", back_populates="scheduleSession")
+#     schedules = relationship("Schedule", back_populates="scheduleSession")
 
-class ScheduleDay(Base):
-    __tablename__ = "scheduleDays"
-    id = Column(Integer, primary_key=True, index=True)
-    day = Column(String)
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class ScheduleDay(Base):
+#     __tablename__ = "scheduleDays"
+#     id = Column(Integer, primary_key=True, index=True)
+#     day = Column(String)
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    schedules = relationship("Schedule", back_populates="scheduleDay")
+#     schedules = relationship("Schedule", back_populates="scheduleDay")
 
-class Schedule(Base):
-    __tablename__ = "schedules"
-    id = Column(Integer, primary_key=True, index=True)
-    scheduleDayId = Column(Integer, ForeignKey("scheduleDays.id"))
-    scheduleSessionId = Column(Integer, ForeignKey("scheduleSessions.id"))
-    roomId = Column(Integer, ForeignKey("rooms.id"))
-    classLecturerId = Column(Integer, ForeignKey("classLecturers.id"))
-    createdAt = Column(DateTime, default=datetime.utcnow)
-    updatedAt = Column(DateTime, default=datetime.utcnow)
+# class Schedule(Base):
+#     __tablename__ = "schedules"
+#     id = Column(Integer, primary_key=True, index=True)
+#     scheduleDayId = Column(Integer, ForeignKey("scheduleDays.id"))
+#     scheduleSessionId = Column(Integer, ForeignKey("scheduleSessions.id"))
+#     roomId = Column(Integer, ForeignKey("rooms.id"))
+#     classLecturerId = Column(Integer, ForeignKey("classLecturers.id"))
+#     createdAt = Column(DateTime, default=datetime.utcnow)
+#     updatedAt = Column(DateTime, default=datetime.utcnow)
     
-    scheduleDay = relationship("ScheduleDay", back_populates="schedules")
-    scheduleSession = relationship("ScheduleSession", back_populates="schedules")
-    room = relationship("Room", back_populates="schedules")
-    classLecturer = relationship("ClassLecturer", back_populates="schedules")
+#     scheduleDay = relationship("ScheduleDay", back_populates="schedules")
+#     scheduleSession = relationship("ScheduleSession", back_populates="schedules")
+#     room = relationship("Room", back_populates="schedules")
+#     classLecturer = relationship("ClassLecturer", back_populates="schedules")
