@@ -82,7 +82,15 @@ export async function GET(req) {
       },
     });
 
-    return NextResponse.json(schedules, { status: 200 });
+    const formattedSchedules = schedules.map(schedule => ({
+      value: schedule.id,
+      label: `ID: ${schedule.id} | ${schedule.scheduleDay.day} ${schedule.scheduleSession.startTime}-${schedule.scheduleSession.endTime} | ${schedule.room.roomName} | ${schedule.classLecturer.class.subSubject.subject.subjectName}`,
+      scheduleData: schedule // Simpan seluruh data schedule untuk referensi
+    }));
+
+    return NextResponse.json(formattedSchedules, { status: 200 });
+
+    // return NextResponse.json(schedules, { status: 200 });
   } catch (error) {
     console.error("Error fetching schedules:", error);
     return NextResponse.json(

@@ -80,7 +80,8 @@ export const API_SCHEDULE_BY_SCHEDULE_DAY_BY_DEPARTMENT_BY_PERIOD = (
   semesterTypeId
 ) =>
   `/api/schedule/by-day-by-department-by-period?dayId=${dayId}&departmentId=${departmentId}&academicPeriodId=${academicPeriodId}&semesterTypeId=${semesterTypeId}`;
-export const API_SCHEDULE_SWAP = (
+
+  export const API_SCHEDULE_SWAP = (
   departmentId,
   academicPeriodId,
   semesterTypeId,

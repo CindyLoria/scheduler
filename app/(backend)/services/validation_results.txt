@@ -1,0 +1,29 @@
+=== HASIL VALIDASI CONSTRAINT ===
+
+Constraint A: VALID
+
+Constraint B: VALID
+
+Constraint C: VALID
+
+Constraint D: VALID
+
+Constraint E: VALID
+
+Constraint F: VALID
+
+Constraint G: VALID
+
+Constraint H: VALID
+
+Constraint I: VALID
+
+Constraint J: VALID
+
+Constraint K: VALID
+
+Constraint L: VALID
+
+
+=== RINGKASAN ===
+12 dari 12 constraint valid

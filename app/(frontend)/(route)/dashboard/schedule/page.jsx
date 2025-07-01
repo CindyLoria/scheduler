@@ -11,6 +11,7 @@ import {
   Select,
   Form,
   Popconfirm,
+  Modal,
 } from "antd";
 import axios from "axios";
 
@@ -28,6 +29,7 @@ import {
   API_SEMESTER_TYPE,
   AUTO_GENERATE_SERVICE,
   API_SCHEDULE_SWAP,
+  API_SCHEDULE_SWAPDATA,
 } from "@/app/(backend)/lib/endpoint";
 // import PostSchedule from "@/app/(frontend)/(component)/PostSchedule";
 import SwapModal from "@/app/(frontend)/(component)/SwapModal";
@@ -112,27 +114,386 @@ const ScheduleMatrix = () => {
   // const handleModalClose = () => {
   //   setIsModalOpen(false);
   // };
+  // Di bagian frontend, ubah komponen SwapModal:
 
-  const loadSchedule = async (
-    departmentId,
-    academicPeriodId,
-    semesterTypeId
-  ) => {
+  // YANG BISA INIII
+  // const SwapModal = ({ isSwapOpen, setIsSwapOpen, title, swapData }) => {
+  //   const [form] = Form.useForm();
+  //   const [selectedSchedule1, setSelectedSchedule1] = useState(null);
+  //   const [selectedSchedule2, setSelectedSchedule2] = useState(null);
+
+  //   // const handleSwap = async () => {
+  //   //   try {
+  //   //     const values = await form.validateFields();
+  //   //     await axios.patch(API_SCHEDULE_SWAPDATA, {
+  //   //       scheduleId1: values.scheduleId1,
+  //   //       scheduleId2: values.scheduleId2
+  //   //     });
+  //   //     message.success('Jadwal berhasil ditukar!');
+  //   //     setIsSwapOpen(false);
+  //   //   } 
+  //   //   // catch (error) {
+  //   //   //   message.error('Gagal menukar jadwal');
+  //   //   // }
+  //   //     catch (error) {
+  //   //     console.error("Detail error:", {
+  //   //       message: error.message,
+  //   //       response: error.response?.data,
+  //   //       config: error.config
+  //   //     });
+  //   //     message.error(`Gagal menukar jadwal: ${error.response?.data?.error || error.message}`);
+  //   //   }
+  //   // };
+
+  //   const handleSwap = async () => {
+  //     try {
+  //       const values = await form.validateFields();
+        
+  //       const response = await axios.patch(API_SCHEDULE_SWAPDATA, {
+  //         scheduleId1: values.scheduleId1,
+  //         scheduleId2: values.scheduleId2
+  //       });
+
+  //       if (response.data.message === "Schedules swapped successfully") {
+  //         message.success('Jadwal berhasil ditukar!');
+  //         setIsSwapOpen(false);
+          
+  //         // Refresh data setelah swap
+  //         if (selectedDay) {
+  //           loadScheduleByDay(selectedDay.id);
+  //         }
+          
+  //         // Refresh swap data
+  //         loadSchedule(selectedDepartment, currentPeriodId, currentSemesterId);
+  //       } else {
+  //         message.error('Gagal menukar jadwal: ' + (response.data.error || 'Unknown error'));
+  //       }
+  //     } catch (error) {
+  //       console.error("Swap error:", {
+  //         message: error.message,
+  //         response: error.response?.data,
+  //         config: error.config
+  //       });
+        
+  //       const errorMsg = error.response?.data?.error 
+  //         || error.response?.data?.details 
+  //         || error.message 
+  //         || 'Gagal menukar jadwal';
+        
+  //       message.error(errorMsg);
+  //     }
+  //   };
+
+  //   return (
+  //     <Modal
+  //       title={title}
+  //       visible={isSwapOpen}
+  //       onOk={handleSwap}
+  //       onCancel={() => setIsSwapOpen(false)}
+  //       okText="Tukar"
+  //       cancelText="Batal"
+  //       width={800}
+  //     >
+  //       <Form form={form} layout="vertical">
+  //         <div className="flex gap-4">
+  //           <div className="flex-1">
+  //             <Form.Item
+  //               label="Pertemuan 1"
+  //               name="scheduleId1"
+  //               rules={[{ required: true, message: "Pilih pertemuan pertama" }]}
+  //             >
+  //               <Select
+  //                 showSearch
+  //                 optionFilterProp="children"
+  //                 onChange={(value) => {
+  //                   const selected = swapData.find(sch => sch.value === value);
+  //                   setSelectedSchedule1(selected?.scheduleData);
+  //                 }}
+  //               >
+  //                 {swapData?.map((sch) => (
+  //                   <Select.Option key={sch.value} value={sch.value}>
+  //                     {sch.label}
+  //                   </Select.Option>
+  //                 ))}
+  //               </Select>
+  //             </Form.Item>
+
+  //             {selectedSchedule1 && (
+  //               <div className="p-4 border rounded-lg mb-4">
+  //                 <h4 className="font-semibold">Detail Jadwal 1:</h4>
+  //                 <p>Hari: {selectedSchedule1.scheduleDay.day}</p>
+  //                 <p>Waktu: {selectedSchedule1.scheduleSession.startTime} - {selectedSchedule1.scheduleSession.endTime}</p>
+  //                 <p>Ruangan: {selectedSchedule1.room.roomName}</p>
+  //                 <p>Mata Kuliah: {selectedSchedule1.classLecturer.class.subSubject.subject.subjectName}</p>
+  //                 <p>Dosen: {selectedSchedule1.classLecturer.primaryLecturer.lecturerName}</p>
+  //               </div>
+  //             )}
+  //           </div>
+
+  //           <div className="flex-1">
+  //             <Form.Item
+  //               label="Pertemuan 2"
+  //               name="scheduleId2"
+  //               rules={[{ required: true, message: "Pilih pertemuan kedua" }]}
+  //             >
+  //               <Select
+  //                 showSearch
+  //                 optionFilterProp="children"
+  //                 onChange={(value) => {
+  //                   const selected = swapData.find(sch => sch.value === value);
+  //                   setSelectedSchedule2(selected?.scheduleData);
+  //                 }}
+  //               >
+  //                 {swapData?.map((sch) => (
+  //                   <Select.Option key={sch.value} value={sch.value}>
+  //                     {sch.label}
+  //                   </Select.Option>
+  //                 ))}
+  //               </Select>
+  //             </Form.Item>
+
+  //             {selectedSchedule2 && (
+  //               <div className="p-4 border rounded-lg mb-4">
+  //                 <h4 className="font-semibold">Detail Jadwal 2:</h4>
+  //                 <p>Hari: {selectedSchedule2.scheduleDay.day}</p>
+  //                 <p>Waktu: {selectedSchedule2.scheduleSession.startTime} - {selectedSchedule2.scheduleSession.endTime}</p>
+  //                 <p>Ruangan: {selectedSchedule2.room.roomName}</p>
+  //                 <p>Mata Kuliah: {selectedSchedule2.classLecturer.class.subSubject.subject.subjectName}</p>
+  //                 <p>Dosen: {selectedSchedule2.classLecturer.primaryLecturer.lecturerName}</p>
+  //               </div>
+  //             )}
+  //           </div>
+  //         </div>
+  //       </Form>
+  //     </Modal>
+  //   );
+  // };
+  // SAMPE SINIIIIII
+  const SwapModal = ({ isSwapOpen, setIsSwapOpen, title, swapData, onSwapSuccess }) => {
+    const [form] = Form.useForm();
+    const [selectedSchedule1, setSelectedSchedule1] = useState(null);
+    const [selectedSchedule2, setSelectedSchedule2] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [constraintError, setConstraintError] = useState(null);
+
+    const handleSwap = async () => {
+      try {
+        setLoading(true);
+        const values = await form.validateFields();
+        
+        const response = await axios.patch(API_SCHEDULE_SWAPDATA, {
+          scheduleId1: values.scheduleId1,
+          scheduleId2: values.scheduleId2
+        });
+
+        if (response.data.success) {
+          message.success(response.data.message);
+          setIsSwapOpen(false);
+          if (onSwapSuccess) onSwapSuccess();
+        } else {
+          message.error(response.data.error || 'Gagal menukar jadwal');
+        }
+      } catch (error) {
+        console.error("Swap error details:", {
+          message: error.message,
+          response: error.response?.data
+        });
+
+        if (error.response?.data?.constraint) {
+          // Tampilkan error constraint khusus
+          message.error({
+            content: (
+              <div>
+                <h4>Constraint Violation</h4>
+                <p>{error.response.data.error}</p>
+                {error.response.data.details && (
+                  <pre>{JSON.stringify(error.response.data.details, null, 2)}</pre>
+                )}
+              </div>
+            ),
+            duration: 5
+          });
+        } else {
+          message.error(error.response?.data?.error || error.message || 'Gagal menukar jadwal, Dosen bentrok');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    return (
+      <Modal
+        title={title}
+        visible={isSwapOpen}
+        onOk={handleSwap}
+        onCancel={() => {
+          setIsSwapOpen(false);
+          setConstraintError(null);
+        }}
+        okText="Tukar"
+        cancelText="Batal"
+        width={800}
+        okButtonProps={{ loading }}
+      >
+        <Form form={form} layout="vertical">
+          {constraintError && (
+            <div className="mb-4 p-4 border border-red-500 rounded-lg bg-red-50">
+              <h4 className="text-red-600 font-bold">Constraint Violation:</h4>
+              <p className="text-red-600">{constraintError.error}</p>
+              {constraintError.details && (
+                <div className="mt-2 grid grid-cols-2 gap-4">
+                  <div className="border p-2 rounded">
+                    <h5 className="font-semibold">Jadwal 1:</h5>
+                    <p>Kelas: {constraintError.details.schedule1.class}</p>
+                    <p>Dosen: {constraintError.details.schedule1.lecturer}</p>
+                    <p>Hari: {constraintError.details.schedule1.day}</p>
+                    <p>Sesi: {constraintError.details.schedule1.session}</p>
+                    <p>Ruangan: {constraintError.details.schedule1.room}</p>
+                  </div>
+                  <div className="border p-2 rounded">
+                    <h5 className="font-semibold">Jadwal 2:</h5>
+                    <p>Kelas: {constraintError.details.schedule2.class}</p>
+                    <p>Dosen: {constraintError.details.schedule2.lecturer}</p>
+                    <p>Hari: {constraintError.details.schedule2.day}</p>
+                    <p>Sesi: {constraintError.details.schedule2.session}</p>
+                    <p>Ruangan: {constraintError.details.schedule2.room}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <Form.Item
+                label="Pertemuan 1"
+                name="scheduleId1"
+                rules={[{ required: true, message: "Pilih pertemuan pertama" }]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  onChange={(value) => {
+                    const selected = swapData.find(sch => sch.value === value);
+                    setSelectedSchedule1(selected?.scheduleData);
+                  }}
+                >
+                  {swapData?.map((sch) => (
+                    <Select.Option key={sch.value} value={sch.value}>
+                      {sch.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              {selectedSchedule1 && (
+                <div className="p-4 border rounded-lg mb-4">
+                  <h4 className="font-semibold">Detail Jadwal 1:</h4>
+                  <p>Hari: {selectedSchedule1.scheduleDay.day}</p>
+                  <p>Waktu: {selectedSchedule1.scheduleSession.startTime} - {selectedSchedule1.scheduleSession.endTime}</p>
+                  <p>Ruangan: {selectedSchedule1.room.roomName} (Kapasitas: {selectedSchedule1.room.roomCapacity})</p>
+                  <p>Mata Kuliah: {selectedSchedule1.classLecturer.class.subSubject.subject.subjectName}</p>
+                  <p>Dosen: {selectedSchedule1.classLecturer.primaryLecturer.lecturerName}</p>
+                  <p>Kapasitas Kelas: {selectedSchedule1.classLecturer.class.classCapacity}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="flex-1">
+              <Form.Item
+                label="Pertemuan 2"
+                name="scheduleId2"
+                rules={[{ required: true, message: "Pilih pertemuan kedua" }]}
+              >
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  onChange={(value) => {
+                    const selected = swapData.find(sch => sch.value === value);
+                    setSelectedSchedule2(selected?.scheduleData);
+                  }}
+                >
+                  {swapData?.map((sch) => (
+                    <Select.Option key={sch.value} value={sch.value}>
+                      {sch.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+
+              {selectedSchedule2 && (
+                <div className="p-4 border rounded-lg mb-4">
+                  <h4 className="font-semibold">Detail Jadwal 2:</h4>
+                  <p>Hari: {selectedSchedule2.scheduleDay.day}</p>
+                  <p>Waktu: {selectedSchedule2.scheduleSession.startTime} - {selectedSchedule2.scheduleSession.endTime}</p>
+                  <p>Ruangan: {selectedSchedule2.room.roomName} (Kapasitas: {selectedSchedule2.room.roomCapacity})</p>
+                  <p>Mata Kuliah: {selectedSchedule2.classLecturer.class.subSubject.subject.subjectName}</p>
+                  <p>Dosen: {selectedSchedule2.classLecturer.primaryLecturer.lecturerName}</p>
+                  <p>Kapasitas Kelas: {selectedSchedule2.classLecturer.class.classCapacity}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </Form>
+      </Modal>
+    );
+  };
+
+  const handleSwapSuccess = () => {
+    if (selectedDay) {
+      loadScheduleByDay(selectedDay.id);
+    }
+    loadSchedule(selectedDepartment, currentPeriodId, currentSemesterId);
+  };
+
+  // const loadSchedule = async (
+  //   departmentId,
+  //   academicPeriodId,
+  //   semesterTypeId
+  // ) => {
+  //   try {
+  //     const response = await axios.get(
+  //       API_SCHEDULE_SWAP(departmentId, academicPeriodId, semesterTypeId)
+  //     );
+  //     const sched = response.data.map((sch) => ({
+  //       value: sch.id,
+  //       label: sch.id,
+  //     }));
+  //     setSwapData(sched);
+  //   } catch (error) {
+  //     message.error("Gagal memuat data!");
+  //   }
+  // };
+
+  // Fetch departments based on selected faculty
+  
+  // const loadSchedule = async (departmentId, academicPeriodId, semesterTypeId) => {
+  //   try {
+  //     const response = await axios.get(
+  //       API_SCHEDULE_SWAP(departmentId, academicPeriodId, semesterTypeId)
+  //     );
+  //     setSwapData(response.data); // Simpan seluruh data termasuk scheduleData
+  //   } catch (error) {
+  //     message.error("Gagal memuat data!");
+  //   }
+  // };
+  const loadSchedule = async (departmentId, academicPeriodId, semesterTypeId) => {
     try {
       const response = await axios.get(
         API_SCHEDULE_SWAP(departmentId, academicPeriodId, semesterTypeId)
       );
-      const sched = response.data.map((sch) => ({
-        value: sch.id,
-        label: sch.id,
-      }));
-      setSwapData(sched);
+      console.log("Data received:", response.data); // Log data yang diterima
+      setSwapData(response.data);
     } catch (error) {
-      message.error("Gagal memuat data!");
+      console.error("Error details:", {
+        message: error.message,
+        response: error.response?.data,
+        config: error.config
+      });
+      message.error(`Gagal memuat data: ${error.response?.data?.error || error.message}`);
     }
   };
 
-  // Fetch departments based on selected faculty
   const loadDepartmentsByFaculty = async (facultyId) => {
     setIsDepartmentLoading(true);
     try {
@@ -917,6 +1278,9 @@ const ScheduleMatrix = () => {
         isSwapOpen={isSwapOpen}
         setIsSwapOpen={setIsSwapOpen}
         title="Tukar Jadwal"
+        // tambahan
+        swapData={swapData}
+        onSwapSuccess={handleSwapSuccess}
       >
         <Form.Item
           label="Pertemuan 1"
