@@ -4,8 +4,6 @@ import pygad
 import random
 from validator import ScheduleValidator
 from fastapi import HTTPException
-from ..model.model import Schedule
-from ..db import SessionLocal
 
 class ScheduleGenerator:
     def __init__(self, data: Dict, academic_year: int = None, semester: str = None):
@@ -426,16 +424,4 @@ def generate_schedule(data: Dict, academic_year: int = None, semester: str = Non
     
     return schedule_result
 
-def save_schedule_to_db(schedule_list):
-    db = SessionLocal()
-    for item in schedule_list:
-        new_schedule = Schedule(
-            scheduleDayId=item["scheduleDayId"],
-            scheduleSessionId=item["scheduleSessionId"],
-            roomId=item["roomId"],
-            classLecturerId=item["classLecturerId"]
-        )
-        db.add(new_schedule)
-    db.commit()
-    db.close()
 
