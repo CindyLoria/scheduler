@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from services.generate_schedule import router as generate_router
 
 app = FastAPI()
 

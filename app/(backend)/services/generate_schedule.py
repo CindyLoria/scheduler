@@ -80,20 +80,32 @@
 #         print("Error:", str(e))  # Debug log
 #         raise HTTPException(status_code=400, detail=str(e))
 
-from fastapi import APIRouter, HTTPException, Request
-from typing import Dict
+# from fastapi import APIRouter, HTTPException, Request
+# from typing import Dict
+# from .genetic_scheduler import generate_schedule
+
+# router = APIRouter()
+
+# @router.post("/generate-schedule")
+# async def get_schedule(request: Request):
+#     try:
+#         data = await request.json()
+#         print("Received data:", data)  # Debug log
+
+#         result = generate_schedule(data)
+#         return {"schedule": result["schedule"], "fitness": result["fitness"]}
+#     except Exception as e:
+#         print("Error:", str(e))  # Debug log
+#         raise HTTPException(status_code=400, detail=str(e))
+
+from fastapi import APIRouter
 from .genetic_scheduler import generate_schedule
+from .data import load_schedule_data
 
 router = APIRouter()
 
-@router.post("/generate-schedule")
-async def get_schedule(request: Request):
-    try:
-        data = await request.json()
-        print("Received data:", data)  # Debug log
-
-        result = generate_schedule(data)
-        return {"schedule": result["schedule"], "fitness": result["fitness"]}
-    except Exception as e:
-        print("Error:", str(e))  # Debug log
-        raise HTTPException(status_code=400, detail=str(e))
+@router.get("/generate-schedule")
+def generate():
+    data = load_schedule_data()
+    result = generate_schedule(data)
+    return result
