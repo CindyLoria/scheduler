@@ -2,7 +2,7 @@
 from typing import Dict, List, Tuple
 import pygad
 import random
-from validator import ScheduleValidator
+from .validator import ScheduleValidator
 from fastapi import HTTPException
 
 class ScheduleGenerator:
