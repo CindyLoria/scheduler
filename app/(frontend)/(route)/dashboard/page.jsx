@@ -57,7 +57,7 @@ const Dashboard = () => {
           <DashboardCard
             title={"Total Unduh"}
             icon={<FaDownload />}
-            content={"1300"}
+            content={"0"}
             bgColor={"bg-green-500"}
           />
         </div>

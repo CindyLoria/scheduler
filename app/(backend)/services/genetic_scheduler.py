@@ -2,7 +2,7 @@
 from typing import Dict, List, Tuple
 import pygad
 import random
-from .validator import ScheduleValidator
+from validator import ScheduleValidator
 from fastapi import HTTPException
 
 class ScheduleGenerator:
@@ -48,40 +48,6 @@ class ScheduleGenerator:
         self.theory_rooms = [r for r in self.rooms if r["isTheory"]]
         self.lab_rooms = [r for r in self.rooms if r["isPracticum"] and r["id"] <= self.OFFLINE_ROOM_MAX_ID]
         self.online_rooms = [r for r in self.rooms if r["id"] >= self.ONLINE_ROOM_MIN_ID]
-
-    # def find_compatible_lab_pair(self, required_capacity: int, used_rooms: List[int]) -> List[int]:
-    #     """Mencari pasangan ruang lab yang sesuai dan tersedia"""
-    #     available_labs = [r for r in self.lab_rooms if r["id"] not in used_rooms]
-    #     total_capacity = 0
-    #     selected_labs = []
-        
-    #     # Sortir lab berdasarkan kapasitas
-    #     available_labs.sort(key=lambda x: x["roomCapacity"], reverse=True)
-        
-    #     # Constraint j. Setiap kelas (mahasiswa) hanya boleh memiliki dua jadwal kelas praktikum di satu sesi yang sama.
-    #     for lab in available_labs:
-    #         if total_capacity < required_capacity and len(selected_labs) < 2:
-    #             selected_labs.append(lab["id"])
-    #             total_capacity += lab["roomCapacity"]
-        
-    #     return selected_labs if total_capacity >= required_capacity else []
-
-    # def find_compatible_lab_pair(self, required_capacity: int, used_rooms: List[int]) -> List[int]:
-    #     """Mencari pasangan ruang lab yang sesuai dan tersedia"""
-    #     # Constraint g. Setiap dosen hanya boleh mengajar dua kelas praktikum di satu sesi yang sama.
-    #     available_labs = [r for r in self.lab_rooms if r["id"] not in used_rooms]
-    #     total_capacity = 0
-    #     selected_labs = []
-        
-    #     # Sortir lab berdasarkan kapasitas
-    #     available_labs.sort(key=lambda x: x["roomCapacity"], reverse=True)
-        
-    #     for lab in available_labs:
-    #         if total_capacity < required_capacity and len(selected_labs) < 2:
-    #             selected_labs.append(lab["id"])
-    #             total_capacity += lab["roomCapacity"]
-        
-    #     return selected_labs if total_capacity >= required_capacity else []
 
     def find_compatible_lab_pair(self, required_capacity: int, used_rooms: List[int]) -> List[int]:
         available_labs = [r for r in self.lab_rooms if r["id"] not in used_rooms]
@@ -396,10 +362,18 @@ class ScheduleGenerator:
                     f"Mata Kuliah: {class_info['subSubject']['subject']['subjectName']}, "
                     f"Tipe: {class_info['subSubject']['subjectType']['typeName']}")
             
+            # Hitung jumlah jadwal online
+            online_room_ids = [r["id"] for r in self.online_rooms]
+            # jumlah_jadwal_online = len([item for item in final_schedule if item["roomId"] >= self.ONLINE_ROOM_MIN_ID])
+            jumlah_jadwal_online = len([item["classLecturerId"] for item in final_schedule if item["roomId"] >= self.ONLINE_ROOM_MIN_ID])
+            print(f"\nJumlah jadwal di ruang online: {jumlah_jadwal_online}")
+
             return {
                 "schedule": final_schedule,
                 "fitness": solution_fitness,
-                "unscheduled_class_lecturers": unscheduled_class_lecturers
+                "unscheduled_class_lecturers": unscheduled_class_lecturers,
+                "jumlah_jadwal_online": jumlah_jadwal_online
+
             }
         except Exception as e:
             print(f"Error in generate: {str(e)}")

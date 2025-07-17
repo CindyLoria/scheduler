@@ -67,8 +67,6 @@ class ScheduleValidator:
             
         return None
 
-    # CONSTRAINT IMPLEMENTATIONS
-
     def validate_constraint_a(self):
         """Teori/Responsi di ruangan sesuai kapasitas"""
         violations = []

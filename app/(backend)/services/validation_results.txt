@@ -16,14 +16,38 @@ Constraint G: VALID
 
 Constraint H: VALID
 
-Constraint I: VALID
+Constraint I: TIDAK VALID
+Jumlah pelanggaran: 24
+  1. Kelas memiliki lebih dari satu jadwal teori/responsi di sesi yang sama
+     Detail: (5, 4, None)
+  2. Kelas memiliki lebih dari satu jadwal teori/responsi di sesi yang sama
+     Detail: (5, 5, None)
+  3. Kelas memiliki lebih dari satu jadwal teori/responsi di sesi yang sama
+     Detail: (3, 1, None)
+  ... dan 21 pelanggaran lainnya
 
-Constraint J: VALID
+Constraint J: TIDAK VALID
+Jumlah pelanggaran: 24
+  1. Kelas memiliki lebih dari dua jadwal praktikum di sesi yang sama
+     Detail: (5, 5, None)
+  2. Kelas memiliki lebih dari dua jadwal praktikum di sesi yang sama
+     Detail: (1, 5, None)
+  3. Kelas memiliki lebih dari dua jadwal praktikum di sesi yang sama
+     Detail: (5, 1, None)
+  ... dan 21 pelanggaran lainnya
 
-Constraint K: VALID
+Constraint K: TIDAK VALID
+Jumlah pelanggaran: 24
+  1. Kelas memiliki jadwal teori/responsi dan praktikum di sesi yang sama
+     Detail: (5, 4, None)
+  2. Kelas memiliki jadwal teori/responsi dan praktikum di sesi yang sama
+     Detail: (5, 5, None)
+  3. Kelas memiliki jadwal teori/responsi dan praktikum di sesi yang sama
+     Detail: (3, 1, None)
+  ... dan 21 pelanggaran lainnya
 
 Constraint L: VALID
 
 
 === RINGKASAN ===
-12 dari 12 constraint valid
+9 dari 12 constraint valid

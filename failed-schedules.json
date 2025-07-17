@@ -1,39 +1,69 @@
 [
   {
     "schedule": {
-      "scheduleDayId": 4,
-      "scheduleSessionId": 3,
+      "scheduleDayId": 1,
+      "scheduleSessionId": 2,
       "roomId": 16,
-      "classLecturerId": 466
+      "classLecturerId": 464
     },
     "reason": "Duplicate schedule",
-    "existingScheduleId": 164
+    "existingScheduleId": 239
   },
   {
     "schedule": {
-      "scheduleDayId": 4,
-      "scheduleSessionId": 5,
-      "roomId": 13,
-      "classLecturerId": 467
+      "scheduleDayId": 5,
+      "scheduleSessionId": 1,
+      "roomId": 16,
+      "classLecturerId": 465
     },
     "reason": "Duplicate schedule",
-    "existingScheduleId": 226
-  },
-  {
-    "schedule": {
-      "scheduleDayId": 2,
-      "scheduleSessionId": 4,
-      "roomId": 13,
-      "classLecturerId": 468
-    },
-    "reason": "Duplicate schedule",
-    "existingScheduleId": 124
+    "existingScheduleId": 54
   },
   {
     "schedule": {
       "scheduleDayId": 1,
+      "scheduleSessionId": 4,
+      "roomId": 12,
+      "classLecturerId": 466
+    },
+    "reason": "Duplicate schedule",
+    "existingScheduleId": 190
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 3,
+      "scheduleSessionId": 5,
+      "roomId": 15,
+      "classLecturerId": 467
+    },
+    "reason": "Duplicate schedule",
+    "existingScheduleId": 223
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 5,
+      "scheduleSessionId": 1,
+      "roomId": 15,
+      "classLecturerId": 468
+    },
+    "reason": "Duplicate schedule",
+    "existingScheduleId": 246
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 3,
       "scheduleSessionId": 2,
-      "roomId": 14,
+      "roomId": 12,
+      "classLecturerId": 469
+    },
+    "reason": "Duplicate schedule",
+    "existingScheduleId": 53
+  },
+  {
+    "schedule": {
+      "scheduleDayId": 2,
+      "scheduleSessionId": 3,
+      "roomId": 12,
       "classLecturerId": 470
     },
     "reason": "Invalid academic period",
